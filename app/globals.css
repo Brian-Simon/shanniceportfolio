@@ -73,11 +73,78 @@ button, a, input, select, textarea {
   color: #ffffff;
 }
 
-/* Focus Styles */
+/* Focus Styles - Enhanced for Accessibility */
 :focus-visible {
   outline: 2px solid #8a5cf6;
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* Improve focus visibility for keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #8a5cf6;
+  outline-offset: 2px;
+}
+
+/* Screen reader only utility class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only:focus,
+.sr-only:active,
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  margin: 0;
+  padding: 0;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Performance optimizations */
+/* Use paint containment for animated sections */
+section {
+  contain: paint;
+}
+
+/* Ensure images have proper aspect ratios to prevent layout shift */
+img {
+  aspect-ratio: auto;
+}
+
+/* Prevent layout shifts with form elements */
+input,
+textarea,
+select {
+  font-size: 16px; /* Prevents zoom on iOS */
+}
 }
 
 /* Animation Utilities */

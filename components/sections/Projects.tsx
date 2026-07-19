@@ -6,8 +6,69 @@ import { portfolioData } from '@/lib/data';
 import { Card } from '@/components/ui/Card';
 import { FiX } from 'react-icons/fi';
 
+// Project card component with image fallback
+const ProjectCard: React.FC<{
+  project: (typeof portfolioData.projects)[0];
+  idx: number;
+  onClick: () => void;
+}> = ({ project, idx, onClick }) => {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <motion.div
+      layoutId={`project-${project.id}`}
+      onClick={onClick}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: idx * 0.1, duration: 0.5 }}
+      whileHover={{ y: -10 }}
+      className="cursor-pointer"
+    >
+      <Card variant="glass" hover>
+        {/* Image with fallback */}
+        <div className="relative w-full aspect-video bg-gradient-to-br from-primary-100 to-primary-50 rounded-lg mb-4 overflow-hidden flex items-center justify-center">
+          {!imageError ? (
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+              onError={() => setImageError(true)}
+              loading="lazy"
+            />
+          ) : (
+            <div className="text-center">
+              <div className="text-4xl mb-2">
+                {project.category === 'Executive Support' ? '👔' : 
+                 project.category === 'Project Coordination' ? '📊' : 
+                 project.category === 'Leadership' ? '👥' : '✨'}
+              </div>
+              <p className="text-sm text-gray-600 font-medium">{project.category}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold">
+            {project.category}
+          </span>
+        </div>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
+        <p className="text-gray-600 text-sm mb-4">{project.description}</p>
+        <div className="flex flex-wrap gap-2">
+          {project.technologies.slice(0, 2).map((tech) => (
+            <span key={tech} className="text-xs bg-primary-50 text-primary-700 px-2 py-1 rounded">
+              {tech}
+            </span>
+          ))}
+        </div>
+      </Card>
+    </motion.div>
+  );
+};
+
 export const Projects: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [imageError, setImageError] = useState(false);
 
   return (
     <section id="projects" className="relative py-20 md:py-32 overflow-hidden">
@@ -36,33 +97,15 @@ export const Projects: React.FC = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {portfolioData.projects.map((project, idx) => (
-            <motion.div
+            <ProjectCard
               key={project.id}
-              layoutId={`project-${project.id}`}
-              onClick={() => setSelectedProject(idx)}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
-              whileHover={{ y: -10 }}
-              className="cursor-pointer"
-            >
-              <Card variant="glass" hover>
-                <div className="mb-4">
-                  <span className="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold">
-                    {project.category}
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
-                <p className="text-gray-600 text-sm mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.slice(0, 2).map((tech) => (
-                    <span key={tech} className="text-xs bg-primary-50 text-primary-700 px-2 py-1 rounded">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
+              project={project}
+              idx={idx}
+              onClick={() => {
+                setSelectedProject(idx);
+                setImageError(false);
+              }}
+            />
           ))}
         </motion.div>
       </div>
@@ -91,11 +134,30 @@ export const Projects: React.FC = () => {
                 </h2>
                 <button
                   onClick={() => setSelectedProject(null)}
+                  aria-label="Close project details"
                   className="p-2 hover:bg-white/20 rounded-lg transition-colors"
                 >
                   <FiX size={24} />
                 </button>
               </div>
+
+              {/* Modal Image with fallback */}
+              <div className="relative w-full aspect-video bg-gradient-to-br from-primary-100 to-primary-50 rounded-lg mb-4 overflow-hidden flex items-center justify-center">
+                {!imageError ? (
+                  <img
+                    src={portfolioData.projects[selectedProject].image}
+                    alt={portfolioData.projects[selectedProject].title}
+                    className="w-full h-full object-cover"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">✨</div>
+                    <p className="text-gray-600">{portfolioData.projects[selectedProject].category}</p>
+                  </div>
+                )}
+              </div>
+
               <p className="text-gray-700 mb-6">{portfolioData.projects[selectedProject].description}</p>
               <div className="grid grid-cols-2 gap-4">
                 <div>

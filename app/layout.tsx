@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Space_Grotesk, Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
+import { EmailJSProvider } from '@/components/providers/EmailJSProvider';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -146,9 +147,92 @@ export default function RootLayout({ children }: RootLayoutProps) {
             }),
           }}
         />
+
+        {/* JSON-LD Organization Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Shannice Wangui Gichia',
+              url: url,
+              logo: url + '/logo.png',
+              description: description,
+              founder: {
+                '@type': 'Person',
+                name: 'Shannice Wangui Gichia',
+              },
+              sameAs: [
+                'https://linkedin.com/in/shannice-gichia',
+                'https://twitter.com/shannicegichia',
+              ],
+              contact: {
+                '@type': 'ContactPoint',
+                telephone: '+254-700-000-000',
+                contactType: 'Professional Services',
+              },
+            }),
+          }}
+        />
+
+        {/* JSON-LD BreadcrumbList Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: 'Home',
+                  item: url,
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: 'About',
+                  item: url + '#about',
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 3,
+                  name: 'Experience',
+                  item: url + '#experience',
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 4,
+                  name: 'Services',
+                  item: url + '#services',
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 5,
+                  name: 'Contact',
+                  item: url + '#contact',
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="font-inter bg-gradient-to-b from-primary-50 to-white">
-        {children}
+        {/* Skip to main content link for accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:bg-primary-700 focus:text-white focus:px-4 focus:py-2 focus:font-semibold focus:rounded-b-lg"
+        >
+          Skip to main content
+        </a>
+
+        {/* Email service provider */}
+        <EmailJSProvider>
+          {children}
+        </EmailJSProvider>
+
         <Analytics />
       </body>
     </html>

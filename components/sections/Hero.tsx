@@ -1,23 +1,9 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
 import { Button } from '@/components/ui/Button';
 import { FiDownload, FiArrowDown } from 'react-icons/fi';
-
-// Placeholder 3D component - will be enhanced with Three.js
-const HeroScene = () => {
-  return (
-    <div className="w-full h-full flex items-center justify-center">
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        className="w-48 h-48 rounded-full border-2 border-primary-500/30 border-t-primary-500"
-      />
-    </div>
-  );
-};
 
 export const Hero: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
@@ -159,17 +145,19 @@ export const Hero: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right 3D Element */}
+          {/* Right Animated Element */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
             className="relative h-96 md:h-full min-h-96 flex items-center justify-center"
           >
-            <div className="relative w-full h-full max-w-md max-h-md">
-              <Suspense fallback={<div>Loading...</div>}>
-                <HeroScene />
-              </Suspense>
+            <div className="relative w-full h-full max-w-md max-h-md flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="w-48 h-48 rounded-full border-2 border-primary-500/30 border-t-primary-500"
+              />
             </div>
           </motion.div>
         </div>

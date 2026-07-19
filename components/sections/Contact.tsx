@@ -25,17 +25,35 @@ export const Contact: React.FC = () => {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
-      // Here you would integrate with your email service
-      // For now, we'll just simulate the submission
-      console.log('Form data:', data);
+      // Initialize EmailJS on first use
+      if (!window.emailjs) {
+        throw new Error('EmailJS library not loaded');
+      }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Send email using EmailJS
+      // You need to set up EmailJS service with your credentials
+      // Get your credentials from https://www.emailjs.com
+      const response = await window.emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_default',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_default',
+        {
+          to_email: portfolioData.social.email,
+          from_email: data.email,
+          from_name: data.name,
+          subject: data.subject,
+          message: data.message,
+          reply_to: data.email,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'public_key_default'
+      );
 
-      setSubmitStatus('success');
-      reset();
-      setTimeout(() => setSubmitStatus('idle'), 3000);
+      if (response.status === 200) {
+        setSubmitStatus('success');
+        reset();
+        setTimeout(() => setSubmitStatus('idle'), 3000);
+      }
     } catch (error) {
+      console.error('Email submission error:', error);
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus('idle'), 3000);
     } finally {

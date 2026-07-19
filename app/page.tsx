@@ -1,9 +1,9 @@
 'use client';
 
-import { Suspense } from 'react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CursorGlow } from '@/components/layout/CursorGlow';
+import { ErrorBoundary } from '@/components/layout/ErrorBoundary';
 import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
 import { Experience } from '@/components/sections/Experience';
@@ -24,51 +24,51 @@ export default function Home() {
       <Header />
 
       {/* Main Content */}
-      <main className="relative">
+      <main id="main-content" className="relative">
         {/* Hero Section */}
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <ErrorBoundary sectionName="Hero">
           <Hero />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* About Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="About">
           <About />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* Experience Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="Experience">
           <Experience />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* Skills Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="Skills">
           <Skills />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* Services Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="Services">
           <Services />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* Projects Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="Projects">
           <Projects />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* Achievements Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="Achievements">
           <Achievements />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* Testimonials Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="Testimonials">
           <Testimonials />
-        </Suspense>
+        </ErrorBoundary>
 
         {/* Contact Section */}
-        <Suspense fallback={<div className="min-h-screen" />}>
+        <ErrorBoundary sectionName="Contact">
           <Contact />
-        </Suspense>
+        </ErrorBoundary>
       </main>
 
       {/* Footer */}

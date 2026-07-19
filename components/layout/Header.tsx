@@ -22,18 +22,26 @@ export const Header: React.FC = () => {
   const [activeItem, setActiveItem] = useState('home');
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    let ticking = false;
 
-      // Update active nav item based on scroll position
-      const sections = navItems.map((item) => item.href.slice(1));
-      const current = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (!element) return false;
-        const { top } = element.getBoundingClientRect();
-        return top >= -200 && top < window.innerHeight / 2;
-      });
-      if (current) setActiveItem(current);
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+
+          // Update active nav item based on scroll position
+          const sections = navItems.map((item) => item.href.slice(1));
+          const current = sections.find((section) => {
+            const element = document.getElementById(section);
+            if (!element) return false;
+            const { top } = element.getBoundingClientRect();
+            return top >= -200 && top < window.innerHeight / 2;
+          });
+          if (current) setActiveItem(current);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -102,8 +110,10 @@ export const Header: React.FC = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
-          aria-label="Toggle menu"
+          className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+          aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
         >
           {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
@@ -112,10 +122,13 @@ export const Header: React.FC = () => {
       {/* Mobile Navigation */}
       {isOpen && (
         <motion.nav
+          id="mobile-menu"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           className="md:hidden bg-gradient-to-b from-white/5 to-transparent backdrop-blur-xl border-b border-white/10"
+          role="navigation"
+          aria-label="Mobile navigation"
         >
           <div className="container mx-auto px-4 py-4 space-y-2">
             {navItems.map((item) => (
