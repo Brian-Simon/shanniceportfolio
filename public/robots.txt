@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://shannice.dev/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /

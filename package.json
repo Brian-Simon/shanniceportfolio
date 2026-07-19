@@ -1,0 +1,51 @@
+{
+  "name": "shannice-portfolio",
+  "version": "1.0.0",
+  "description": "Award-winning luxury interactive portfolio for Shannice Wangui Gichia",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "next": "^15.0.0",
+    "three": "^r128",
+    "@react-three/fiber": "^8.15.0",
+    "@react-three/drei": "^9.88.0",
+    "@gsap/react": "^2.1.0",
+    "gsap": "^3.12.2",
+    "framer-motion": "^10.16.0",
+    "@react-lenis/lenis": "^0.0.13",
+    "lenis": "^1.0.42",
+    "react-hook-form": "^7.48.0",
+    "zod": "^3.22.0",
+    "@hookform/resolvers": "^3.3.0",
+    "emailjs-com": "^3.2.0",
+    "react-icons": "^4.12.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/three": "^r128",
+    "eslint": "^8.54.0",
+    "eslint-config-next": "^15.0.0",
+    "prettier": "^3.1.0",
+    "tailwindcss": "^3.3.0",
+    "@tailwindcss/typography": "^0.5.10"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}
